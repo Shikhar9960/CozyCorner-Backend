@@ -18,26 +18,25 @@ mongoose
     console.log(err);
   });
 
-const __dirname = path.resolve();
-
+  const __dirname = path.resolve();
 
 const app = express();
-
-
-
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-
 
 app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://cozycorners9960.netlify.app', // Replace with your frontend URL
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Allow cookies and other credentials
+};
+app.use(cors(corsOptions));
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server is running on port 3000!');
+});
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
