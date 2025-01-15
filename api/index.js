@@ -1,41 +1,39 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Importing CORS
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
-import listingRouter from './routes/listing.route.js';
 import cookieParser from 'cookie-parser';
-import path from 'path';
+import listingRouter from './routes/listing.route.js'
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log('Connected to MongoDB!');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+mongoose.connect(process.env.MONGO).then(() => {
+  console.log("connected to mongodb")
+}).catch((err) => {
+  console.log(err)
+})
 
-  const __dirname = path.resolve();
 
-const app = express();
 
-app.use(express.json());
-
-app.use(cookieParser());
-
+// Configure CORS to allow requests from your frontend's origin
 const corsOptions = {
   origin: 'https://cozycorners9960.netlify.app', // Replace with your frontend URL
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies and other credentials
+  methods: 'GET,POST,PUT,DELETE', // Add methods as needed
+  allowedHeaders: 'Content-Type,Authorization', // Add headers as needed
 };
-app.use(cors(corsOptions));
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running on port 3000!');
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+
+
+
+const app = express();
+app.use(express.json());
+app.use(cookieParser());
+
+app.listen(3000, () => {
+  console.log('service is running  on port 3000!');
 });
 
 app.use('/api/user', userRouter);
