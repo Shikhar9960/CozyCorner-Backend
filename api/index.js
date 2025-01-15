@@ -29,9 +29,7 @@ app.get('/api/auth/signout', (req, res) => {
   res.json({ message: 'Signout successful' });
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+
 
 
 const __dirname = path.resolve();
