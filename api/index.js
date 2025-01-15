@@ -26,15 +26,9 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: 'https://cozycorners9960.netlify.app', // Replace with your frontend URL
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies and other credentials
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
-app.listen(3000, () => {
+app.listen( 3000, () => {
   console.log('Server is running on port 3000!');
 });
 
