@@ -5,36 +5,45 @@ import cors from 'cors';
 import path from 'path';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
+import listingRouter from './routes/listing.route.js';
 import cookieParser from 'cookie-parser';
-import listingRouter from './routes/listing.route.js'
+import path from 'path';
 dotenv.config();
 
-mongoose.connect(process.env.MONGO).then(() => {
-  console.log("connected to mongodb")
-}).catch((err) => {
-  console.log(err)
-})
-
-
-
-const corsOptions = {
-  origin: 'https://cozycorners9960.netlify.app', // Replace with your frontend URL
-  methods: 'GET,POST,PUT,DELETE', // Add methods as needed
-  allowedHeaders: 'Content-Type,Authorization', // Add headers as needed
-};
-
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
+    console.log('Connected to MongoDB!');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 const app = express();
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 
+
+
+app.use(cors());
+
+// Example route
+app.get('/api/auth/signout', (req, res) => {
+  res.json({ message: 'Signout successful' });
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+
+
+const __dirname = path.resolve();
 
 
 app.use(express.json());
+
 app.use(cookieParser());
 
 app.listen(3000, () => {
-  console.log('service is running  on port 3000!');
+  console.log('Server is running on port 3000!');
 });
 
 app.use('/api/user', userRouter);
@@ -42,6 +51,11 @@ app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
 
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -52,4 +66,3 @@ app.use((err, req, res, next) => {
     message,
   });
 });
-
