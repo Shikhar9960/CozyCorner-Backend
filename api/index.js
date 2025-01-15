@@ -18,19 +18,29 @@ mongoose
     console.log(err);
   });
 
-  const __dirname = path.resolve();
+const __dirname = path.resolve();
+
+
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
+
+
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
 
 app.use(express.json());
 
 app.use(cookieParser());
 
 app.use(cors());
-
-app.listen( 3000, () => {
-  console.log('Server is running on port 3000!');
-});
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
