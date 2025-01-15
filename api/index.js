@@ -17,20 +17,19 @@ mongoose.connect(process.env.MONGO).then(() => {
 
 
 
-// Configure CORS to allow requests from your frontend's origin
 const corsOptions = {
   origin: 'https://cozycorners9960.netlify.app', // Replace with your frontend URL
   methods: 'GET,POST,PUT,DELETE', // Add methods as needed
   allowedHeaders: 'Content-Type,Authorization', // Add headers as needed
 };
 
+const app = express();
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 
 
 
-const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
